@@ -1,0 +1,50 @@
+<PlusConfiguration version="2.7">
+
+  <DataCollection StartupDelaySec="1.0">
+    <DeviceSet
+      Name="PlusServer: AMFITRACK"
+      Description="Broadcasting tracking data through OpenIGTLink."
+    />
+    <Device
+      Id="TrackerDevice"
+      Type="AMFITRACKTracker"
+      ToolReferenceFrame="Tracker" >
+      <DataSources>
+        <DataSource 
+            Type="Tool" 
+            Id="Probe2" 
+            PortName="2"
+            UnityCoordinateSystem="True"/>
+        <DataSource 
+            Type="Tool" 
+            Id="Probe3" 
+            PortName="3"
+            UnityCoordinateSystem="True"/>
+      </DataSources>
+      <OutputChannels>
+        <OutputChannel
+            Id="TrackerStream">
+            <DataSource Type="Tool" Id="Probe2"/>
+            <DataSource Type="Tool" Id="Probe3"/>
+        </OutputChannel>
+      </OutputChannels>
+    </Device>
+  </DataCollection>
+
+  <PlusOpenIGTLinkServer
+    MaxNumberOfIgtlMessagesToSend="1"
+    MaxTimeSpentWithProcessingMs="50"
+    ListeningPort="18944"
+    OutputChannelId="TrackerStream" >
+    <DefaultClientInfo>
+      <MessageTypes>
+        <Message Type="TRANSFORM" />
+      </MessageTypes>
+      <TransformNames>
+        <Transform Name="Probe2ToTracker" />
+        <Transform Name="Probe3ToTracker" />
+      </TransformNames>
+    </DefaultClientInfo>
+  </PlusOpenIGTLinkServer>
+  
+</PlusConfiguration>
